@@ -1,47 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import {
-  faGithub,
-  faLinkedin,
-  faMedium,
-  faStackOverflow,
-} from "@fortawesome/free-brands-svg-icons";
-import { Box, HStack } from "@chakra-ui/react";
+import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
+import { Box, HStack, Link, IconButton } from "@chakra-ui/react";
 
 const socials = [
-  {
-    icon: faEnvelope,
-    url: "mailto: hello@example.com",
-  },
-  {
-    icon: faGithub,
-    url: "https://github.com",
-  },
-  {
-    icon: faLinkedin,
-    url: "https://www.linkedin.com",
-  },
-  {
-    icon: faMedium,
-    url: "https://medium.com",
-  },
-  {
-    icon: faStackOverflow,
-    url: "https://stackoverflow.com",
-  },
+  { icon: faEnvelope, url: "mailto:seweryn.webdev@gmail.com" },
+  { icon: faGithub, url: "https://github.com/Seweryn999" },
+  { icon: faLinkedin, url: "https://www.linkedin.com/in/seweryn-stalinger-2a31b2297/" },
 ];
 
 const Header = () => {
   const handleClick = (anchor) => () => {
     const id = `${anchor}-section`;
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
@@ -50,30 +22,41 @@ const Header = () => {
       top={0}
       left={0}
       right={0}
-      translateY={0}
-      transitionProperty="transform"
-      transitionDuration=".3s"
-      transitionTimingFunction="ease-in-out"
-      backgroundColor="#18181b"
+      bg="#18181b"
+      zIndex={10}
+      boxShadow="md"
     >
-      <Box color="white" maxWidth="1280px" margin="0 auto">
-        <HStack
-          px={16}
-          py={4}
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <nav>
-            {/* Add social media links based on the `socials` data */}
-          </nav>
-          <nav>
-            <HStack spacing={8}>
-              {/* Add links to Projects and Contact me section */}
-            </HStack>
-          </nav>
+      <Box color="white" maxW="1280px" mx="auto">
+        <HStack px={16} py={4} justifyContent="space-between" alignItems="center">
+          {/* Social Media Icons */}
+          <HStack spacing={4}>
+            {socials.map(({ icon, url }, index) => (
+              <Link key={index} href={url} isExternal>
+                <IconButton
+                  aria-label="social-icon"
+                  icon={<FontAwesomeIcon icon={icon} />}
+                  variant="ghost"
+                  color="white"
+                  fontSize="lg"
+                  _hover={{ color: "gray.400" }}
+                />
+              </Link>
+            ))}
+          </HStack>
+
+          {/* Navigation Links */}
+          <HStack spacing={8}>
+            <Link onClick={handleClick("projects")} cursor="pointer" _hover={{ color: "gray.400" }}>
+              Projects
+            </Link>
+            <Link onClick={handleClick("contact")} cursor="pointer" _hover={{ color: "gray.400" }}>
+              Contact Me
+            </Link>
+          </HStack>
         </HStack>
       </Box>
     </Box>
   );
 };
+
 export default Header;
